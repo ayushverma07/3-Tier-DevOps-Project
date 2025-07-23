@@ -3,26 +3,26 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8
-    container_name: mysql
-    restart: always
+    container_name: mysql 
+    restart: always # Restart policy to always restart the container
     environment:
       MYSQL_ROOT_PASSWORD: Ayush
-      MYSQL_DATABASE: crud_app
+      MYSQL_DATABASE: crud_app 
     volumes:
-      - mysql-data:/var/lib/mysql
-      - ./mysql-init:/docker-entrypoint-initdb.d
+      - mysql-data:/var/lib/mysql # Use a named volume for persistent storage
+      - ./mysql-init:/docker-entrypoint-initdb.d # Initialize database with scripts
     ports:
-      - "3306:3306"
+      - "3306:3306" # Expose MySQL port
 
   backend:
-    build: ./api
+    build: ./api 
     container_name: backend-api
     environment:
       DB_HOST: mysql
       DB_USER: root
       DB_PASSWORD: Ayush
       DB_NAME: crud_app
-      JWT_SECRET: SecretKey
+      JWT_SECRET: SecretKey 
       RESET_ADMIN_PASS: 'true'
     depends_on:
       - mysql
