@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'docker-build-deploy', url: 'https://github.com/jaiswaladi246/3-Tier-DevSecOps-Mega-Project.git'
+                git branch: 'local-dev', url: 'https://github.com/ayushverma07/3-Tier-DevOps-Project.git'
             }
         }
         
@@ -74,3 +74,5 @@ pipeline {
                 sh 'trivy fs --format table -o fs-report.html .'
             }
         }
+    }
+}
