@@ -53,7 +53,7 @@ pipeline {
                 withSonarQubeEnv('sonar') {
                     sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=NodeJS-Project \
                             -Dsonar.projectKey=NodeJS-Project \
-                            -Dsonar.javascript.lcov.reportPaths=client/coverage/lcov.info,api/coverage/lcov.info 
+                            -Dsonar.javascript.lcov.reportPaths=client/coverage/lcov.info
                     '''
                 }
             }
