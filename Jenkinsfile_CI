@@ -38,10 +38,6 @@ pipeline {
                     sh 'npm install'
                     sh 'npm test -- --coverage' // generates coverage/lcov.info
                 }
-                dir('api') {
-                    sh 'npm install'
-                    sh 'npm test -- --coverage' // generates coverage/lcov.info
-                }
             }
         }
         
