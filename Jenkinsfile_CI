@@ -60,3 +60,33 @@ pipeline {
                 sh 'trivy fs --format table -o fs-report.html .'
             }
         }
+
+        stage('Build-Tag & Push Backend Docker Image') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker-cred') {
+                        dir('api') {
+                            sh 'docker build -t ayushvermadocker/backend:latest .'
+                            sh 'trivy image --format table -o backend-image-report.html ayushvermadocker/backend:latest '
+                            sh 'docker push ayushvermadocker/backend:latest'
+                        }
+                    }
+                }
+            }
+        }  
+            
+        stage('Build-Tag & Push Frontend Docker Image') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker-cred') {
+                        dir('client') {
+                            sh 'docker build -t ayushvermadocker/frontend:latest .'
+                            sh 'trivy image --format table -o frontend-image-report.html ayushvermadocker/frontend:latest '
+                            sh 'docker push ayushvermadocker/frontend:latest'
+                        }
+                    }
+                }
+            }
+        }  
+    }
+}
