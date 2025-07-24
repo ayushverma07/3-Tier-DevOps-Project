@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'docker-build-deploy', url: 'https://github.com/ayushverma07/3-Tier-DevOps-Project.git'
+                git branch: 'build-deploy-docker', url: 'https://github.com/ayushverma07/3-Tier-DevOps-Project.git'
             }
         }
         
