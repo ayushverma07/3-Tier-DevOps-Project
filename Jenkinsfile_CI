@@ -3,7 +3,7 @@ pipeline {
     agent any
     
     tools {
-        nodejs 'nodejs23'
+        nodejs 'NodeJS23'
     }
 
     environment {
@@ -43,9 +43,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar') {
                     sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=NodeJS-Project \
-                            -Dsonar.projectKey=NodeJS-Project \
-                            -Dsonar.sources=src \
-                            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info 
+                            -Dsonar.projectKey=NodeJS-Project 
                     '''
                 }
             }
@@ -62,43 +60,3 @@ pipeline {
                 sh 'trivy fs --format table -o fs-report.html .'
             }
         }
-        
-        stage('Build-Tag & Push Backend Docker Image') {
-            steps {
-                script {
-                    withDockerRegistry(credentialsId: 'docker-cred') {
-                        dir('api') {
-                            sh 'docker build -t ayushverma07/backend:latest .'
-                            sh 'trivy image --format table -o backend-image-report.html ayushverma07/backend:latest '
-                            sh 'docker push ayushverma07/backend:latest'
-
-                        }
-                    }
-                }
-            }
-        }  
-            
-        stage('Build-Tag & Push Frontend Docker Image') {
-            steps {
-                script {
-                    withDockerRegistry(credentialsId: 'docker-cred') {
-                        dir('client') {
-                            sh 'docker build -t ayushverma07/frontend:latest .'
-                            sh 'trivy image --format table -o frontend-image-report.html ayushverma07/frontend:latest '
-                            sh 'docker push ayushverma07/frontend:latest'
-                        }
-                    }
-                }
-            }
-             
-        }  
-        stage('Docker Deploy via Compose') {
-            steps {
-                script {
-                    sh 'docker-compose up -d'
-                }
-            }
-        }
-            
-    }
-}
