@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1 
+kind: StorageClass
+metadata:
+  name: ebs-sc 
+provisioner: ebs.csi.aws.com
+parameters:
+  type: gp3 #general purpose SSD
+  fsType: ext4
+reclaimPolicy: Retain # Retain the volume after the PVC is deleted
+volumeBindingMode: WaitForFirstConsumer # Wait for a pod to be scheduled before binding the volume
