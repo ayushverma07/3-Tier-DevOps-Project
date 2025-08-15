@@ -4,6 +4,8 @@ pipeline {
     }
     
     tools {
+        ;
+        
         nodejs 'NodeJS23'
     }
     
@@ -36,8 +38,8 @@ pipeline {
         
         stage('Gitleaks Scan') {
             steps {
-                sh 'gitleaks detect --source ./client --exit-code 1'
-                sh 'gitleaks detect --source ./api --exit-code 1'
+                sh 'gitleaks detect --source ./client --no-git --exit-code 1'
+                sh 'gitleaks detect --source ./api --no-git --exit-code 1'
             }
         }
         
@@ -102,6 +104,7 @@ pipeline {
                             sh 'kubectl apply -f k8s/mysql.yaml -n dev'
                             sh 'kubectl apply -f k8s/backend.yaml -n dev'
                             sh 'kubectl apply -f k8s/frontend.yaml -n dev'
+                            sh 'kubectl rollout restart deployment backend -n dev'
                             sleep 30
                     }
                 }
