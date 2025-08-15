@@ -1,0 +1,10 @@
+title = "Custom Gitleaks Config for Backend Secret"
+
+[[allowlist]]
+description = "Allow base64 encoded MySQL root password for demo"
+regex = '''QXl1c2g='''
+
+[allowlist]
+paths = [
+    ".*backend.*",  # optional: match specific files
+]
